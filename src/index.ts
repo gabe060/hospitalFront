@@ -46,6 +46,13 @@ app.config([
       controllerAs: 'vm'
     })
 
+    $stateProvider.state('listHospital', {
+      url: '/list-hospital',
+      templateUrl: 'src/modules/list-hospital/list-hospital.html',
+      controller: 'ListHospitalController',
+      controllerAs: 'vm'
+    });
+
     $urlRouterProvider.otherwise('/home');
   }
 ]);

@@ -116,4 +116,12 @@ html, body {
 .lista-rolagem:hover {
   overflow: auto; /* Mostra a barra de rolagem quando o mouse paira */
 }
+
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(59vh - 280px); /* subtrai a altura da barra superior */
+}
   

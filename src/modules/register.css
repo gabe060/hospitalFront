@@ -8,14 +8,18 @@
     line-height: 1.6;
     align-items: center;
     min-height: 100vh;
+    background-image: url("sg.png");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .register-container{
     background-color: #277585;
-    margin: 0 auto;
+    margin: 4vh auto;
     padding: 25px;
     max-width: 75vh;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .register-container button {
@@ -29,13 +33,23 @@
     transition: background-color 0.3s;
   }
 
+     .register-container button:hover {
+    background-color: #003d49; /* verde mais escuro ao passar o mouse */
+   }
+
    .top-bar button:hover {
     background-color: #003d49; /* verde mais escuro ao passar o mouse */
    }
 
 .page-title {
     text-align: center;
-    color: #141414;
+    color: #ffffff;
+    font-size: 1.2vh;
+     background-color: #277585;
+    margin: 0 auto;
+    padding: 19px;
+    max-width: 35vh;
+    border-radius: 35px;
 }
 
 .control-section {
@@ -74,4 +88,18 @@ table.list td {
 .list-inside tr:hover {
   background-color: #144d5c;
   transition: background 0.2s ease;
+}
+
+.stylish-input {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+  width: 180px; /* Ajuste a largura conforme necessário */
+}
+
+.stylish-input:focus {
+  border-color: #4CAF50;
+  outline: none; /* Remove a borda padrão ao focar */
 }

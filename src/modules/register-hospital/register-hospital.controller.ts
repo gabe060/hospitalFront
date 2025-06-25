@@ -30,7 +30,9 @@ export class RegisterHospitalController {
     addHospital(){
         if(!this.hospitalName.trim()) return;
 
-        const hospital = {nome: this.hospitalName};
+        const hospital = {
+            nome: this.hospitalName
+        };
 
         this.$http.post('http://localhost:8080/hospital/new', hospital)
             .then(() => {
@@ -39,14 +41,16 @@ export class RegisterHospitalController {
             }).catch(error => {console.error('Erro ao Adicionar Hospital', error);});
     }
 
-    updateHospital(hospital: any){
+    updateHospital(hospitalId: number){
         const newName = prompt('Digite o novo nome do hospital');
 
         if(newName === null || newName.trim() === '') return;
 
-        const hospitalUpdate = {name: newName};
+        const hospitalUpdate = {
+            nome: newName
+        };
 
-        this.$http.put(`http://localhost:8080/hospital/${hospital.id}`, hospitalUpdate)
+        this.$http.put(`http://localhost:8080/hospital/${hospitalId}`, hospitalUpdate)
             .then(() => {this.listHospitals();})
             .catch(error => {console.error('Erro ao Atualizar Hospital', error);})
     }

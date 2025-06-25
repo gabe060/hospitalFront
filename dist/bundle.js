@@ -47950,7 +47950,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var HomePageController = /** @class */ (function () {
     function HomePageController() {
-        this.mensagem = 'Bem Vindo!';
         this.name = 'Gerenciador de Hospitais';
         this.menuAtivo = '';
     }
@@ -48181,20 +48180,24 @@ var RegisterHospitalController = /** @class */ (function () {
         var _this = this;
         if (!this.hospitalName.trim())
             return;
-        var hospital = { nome: this.hospitalName };
+        var hospital = {
+            nome: this.hospitalName
+        };
         this.$http.post('http://localhost:8080/hospital/new', hospital)
             .then(function () {
             _this.hospitalName = '';
             _this.listHospitals();
         }).catch(function (error) { console.error('Erro ao Adicionar Hospital', error); });
     };
-    RegisterHospitalController.prototype.updateHospital = function (hospital) {
+    RegisterHospitalController.prototype.updateHospital = function (hospitalId) {
         var _this = this;
         var newName = prompt('Digite o novo nome do hospital');
         if (newName === null || newName.trim() === '')
             return;
-        var hospitalUpdate = { name: newName };
-        this.$http.put("http://localhost:8080/hospital/".concat(hospital.id), hospitalUpdate)
+        var hospitalUpdate = {
+            nome: newName
+        };
+        this.$http.put("http://localhost:8080/hospital/".concat(hospitalId), hospitalUpdate)
             .then(function () { _this.listHospitals(); })
             .catch(function (error) { console.error('Erro ao Atualizar Hospital', error); });
     };
@@ -48444,6 +48447,12 @@ app.config([
             url: '/admission',
             templateUrl: 'src/modules/admission/admission.html',
             controller: 'AdmissionController',
+            controllerAs: 'vm'
+        });
+        $stateProvider.state('listHospital', {
+            url: '/list-hospital',
+            templateUrl: 'src/modules/list-hospital/list-hospital.html',
+            controller: 'ListHospitalController',
             controllerAs: 'vm'
         });
         $urlRouterProvider.otherwise('/home');
