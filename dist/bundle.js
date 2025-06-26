@@ -48119,6 +48119,70 @@ admissionModule.controller('AdmissionController', _admission_controller__WEBPACK
 
 /***/ }),
 
+/***/ "./src/modules/list-hospital/index.ts":
+/*!********************************************!*\
+  !*** ./src/modules/list-hospital/index.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   listHospitalModule: () => (/* binding */ listHospitalModule)
+/* harmony export */ });
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _list_hospital_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list-hospital.controller */ "./src/modules/list-hospital/list-hospital.controller.ts");
+
+
+var listHospitalModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('listHospitalModule', []);
+listHospitalModule.controller('ListHospitalController', _list_hospital_controller__WEBPACK_IMPORTED_MODULE_1__.ListHospitalController);
+
+
+/***/ }),
+
+/***/ "./src/modules/list-hospital/list-hospital.controller.ts":
+/*!***************************************************************!*\
+  !*** ./src/modules/list-hospital/list-hospital.controller.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ListHospitalController: () => (/* binding */ ListHospitalController)
+/* harmony export */ });
+var ListHospitalController = /** @class */ (function () {
+    function ListHospitalController($http) {
+        this.$http = $http;
+        this.hospitals = [];
+        this.searchName = '';
+        this.listHospitals();
+    }
+    ListHospitalController.prototype.listHospitals = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital')
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    ListHospitalController.prototype.findHospitalsByName = function () {
+        var _this = this;
+        if (!this.searchName || this.searchName.trim() === '') {
+            this.listHospitals();
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/search/".concat(this.searchName))
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    ListHospitalController.$inject = ['$http'];
+    return ListHospitalController;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/modules/register-hospital/index.ts":
 /*!************************************************!*\
   !*** ./src/modules/register-hospital/index.ts ***!
@@ -48408,6 +48472,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_register_hospital_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/register-hospital/index */ "./src/modules/register-hospital/index.ts");
 /* harmony import */ var _modules_register_patient_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/register-patient/index */ "./src/modules/register-patient/index.ts");
 /* harmony import */ var _modules_admission_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/admission/index */ "./src/modules/admission/index.ts");
+/* harmony import */ var _modules_list_hospital_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/list-hospital/index */ "./src/modules/list-hospital/index.ts");
+
 
 
 
@@ -48419,7 +48485,8 @@ var app = angular__WEBPACK_IMPORTED_MODULE_0__.module('meuApp', [
     _home_page_index__WEBPACK_IMPORTED_MODULE_2__.homePageModule.name,
     _modules_register_hospital_index__WEBPACK_IMPORTED_MODULE_3__.registerHospitalModule.name,
     _modules_register_patient_index__WEBPACK_IMPORTED_MODULE_4__.registerPatientModule.name,
-    _modules_admission_index__WEBPACK_IMPORTED_MODULE_5__.admissionModule.name
+    _modules_admission_index__WEBPACK_IMPORTED_MODULE_5__.admissionModule.name,
+    _modules_list_hospital_index__WEBPACK_IMPORTED_MODULE_6__.listHospitalModule.name
 ]);
 app.config([
     '$stateProvider',

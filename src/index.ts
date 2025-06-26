@@ -5,13 +5,15 @@ import { homePageModule } from './home-page/index';
 import { registerHospitalModule } from './modules/register-hospital/index';
 import { registerPatientModule } from "./modules/register-patient/index";
 import { admissionModule } from './modules/admission/index';
+import { listHospitalModule } from './modules/list-hospital/index';
 
 const app = angular.module('meuApp', [
   'ui.router',
   homePageModule.name,
   registerHospitalModule.name,
   registerPatientModule.name,
-  admissionModule.name
+  admissionModule.name,
+  listHospitalModule.name
 ]);
 
 app.config([
