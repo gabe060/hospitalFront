@@ -10,49 +10,47 @@
          ng-mouseleave="vm.menuAtivo = ''">
       <button class="menu-button">Hospitais</button>
       <div class="submenu" ng-class="{ 'show': vm.menuAtivo === 'hospital' }">
-        <button ui-sref="registerHospital">Cadastrar</button>
-        <button ui-sref="listHospital">Listar</button>
-        <button ui-sref="admission">Teste</button>
+        <button ui-sref="registerHospital">Cadastrar Hospital</button>
+        <button ui-sref="listHospital">Listar Hospitais</button>
       </div>
   </div>
 
 <div class="menu-item"
          ng-mouseenter="vm.menuAtivo = 'ala'"
          ng-mouseleave="vm.menuAtivo = ''">
-      <button class="menu-button">Ala</button>
+      <button class="menu-button">Alas</button>
       <div class="submenu" ng-class="{ 'show': vm.menuAtivo === 'ala' }">
-        <button ng-click="vm.acao('Cadastrar Hospital')">Cadastrar</button>
-        <button ng-click="vm.acao('Listar Hospitais')">Listar</button>
+       <button ui-sref="registerAla">Cadastrar Ala</button>
+        <button ui-sref="listAla">Listar Alas</button>
       </div>
   </div>
 
 <div class="menu-item"
          ng-mouseenter="vm.menuAtivo = 'quarto'"
          ng-mouseleave="vm.menuAtivo = ''">
-      <button class="menu-button">Quarto</button>
+      <button class="menu-button">Quartos</button>
       <div class="submenu" ng-class="{ 'show': vm.menuAtivo === 'quarto' }">
-        <button ng-click="vm.acao('Cadastrar Hospital')">Cadastrar</button>
-        <button ng-click="vm.acao('Listar Hospitais')">Listar</button>
+       <button ui-sref="listQuarto">Listar Quartos</button>
       </div>
   </div>
 
 <div class="menu-item"
          ng-mouseenter="vm.menuAtivo = 'leito'"
          ng-mouseleave="vm.menuAtivo = ''">
-      <button class="menu-button">Leito</button>
+      <button class="menu-button">Leitos</button>
       <div class="submenu" ng-class="{ 'show': vm.menuAtivo === 'leito' }">
-        <button ng-click="vm.acao('Cadastrar Hospital')">Cadastrar</button>
-        <button ng-click="vm.acao('Listar Hospitais')">Listar</button>
+        <button ui-sref="listLeito">Listar Leitos</button>
       </div>
   </div>
 
 <div class="menu-item"
          ng-mouseenter="vm.menuAtivo = 'paciente'"
          ng-mouseleave="vm.menuAtivo = ''">
-      <button class="menu-button">Paciente</button>
+      <button class="menu-button">Pacientes</button>
       <div class="submenu" ng-class="{ 'show': vm.menuAtivo === 'paciente' }">
-        <button ng-click="vm.acao('Cadastrar Hospital')">Cadastrar</button>
-        <button ng-click="vm.acao('Listar Hospitais')">Listar</button>
+         <button ui-sref="registerPatient">Cadastrar paciente</button>
+        <button ui-sref="registerAdmission">Internação</button>
+        <button ui-sref="listPatient">Listar Pacientes</button>
       </div>
   </div>
 

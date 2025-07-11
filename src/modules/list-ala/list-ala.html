@@ -1,6 +1,6 @@
 <div class="body" id="register">
     <div class="page-title">
-        <h1>Cadastro de Alas</h1>
+        <h1>Lista de Alas</h1>
         <button class="btn-back" ng-click="vm.goHome()">Voltar para Início</button>
     </div>
     <div class="register-container">
@@ -8,7 +8,6 @@
         <div id="message-area"></div>
 
         <div class="add-section">
-            <h3>Adicionar Nova Ala</h3>
             <div class="form-group">
 
             <label for="hospital-select">Selecione o hospital:</label>
@@ -17,17 +16,6 @@
                 <option ng-repeat="hospital in vm.hospitals" value="{{ hospital.hospitalId }}">{{ hospital.nome }}</option>
               </select>
 
-<br></br>
-
-                <label for="name">Especialidade da ala:</label>
-                <input type="text" class="stylish-input" id="especialidade" ng-model="vm.alaEspecialidade" placeholder="Digite o nome da especialidade" />
-<br></br>
-                <label for="quantQuartos">Nº Quartos:</label>
-                <input type="number" class="stylish-input" id="quantQuartos" ng-model="vm.alaQuantQuartos" placeholder="Digite o número de quartos" min="0"/>
-<br></br>
-                <label for="quantLeitosPorQuarto">Nº Leitos por quarto:</label>
-                <input type="number" class="stylish-input" id="quantLeitosPorQuarto" ng-model="vm.alaQuantLeitosPorQuarto" placeholder="Digite o número de leitos" min="0"/>
-                <button class="btn-add" ng-click="vm.addAla()">Salvar</button>
             </div>
         </div>
 
@@ -47,14 +35,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Especialidade</th>
-                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody class="list-inside">
                 <tr ng-repeat="ala in vm.alas">
                     <td>{{ ala.alaId }}</td>
                     <td>{{ ala.especialidade }}</td>
-                    <td><button title="Excluir" ng-click="vm.deleteAla(ala.alaId)">❌</button></td>
                 </tr>
             </tbody>
         </table>

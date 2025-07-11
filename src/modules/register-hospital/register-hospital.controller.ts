@@ -1,5 +1,5 @@
 export class RegisterHospitalController {
-    static $inject = ['$http'];
+    static $inject = ['$http', '$location'];
     hospitals: any[] = [];
 
     listHospitals(){
@@ -8,7 +8,7 @@ export class RegisterHospitalController {
             .catch (error => {console.error('Erro ao Buscar Hospitais', error);})
     }
 
-    constructor(private $http : angular.IHttpService){
+    constructor(private $http : angular.IHttpService, private $location: angular.ILocationService){
         this.listHospitals();
     }
 
@@ -63,4 +63,9 @@ export class RegisterHospitalController {
             .then(() => {this.listHospitals();})
             .catch(error => {console.error('Erro ao Deletar Hospital', error);})
     }
+
+    goHome() {
+        this.$location.path('/home');
+    }
+
 }

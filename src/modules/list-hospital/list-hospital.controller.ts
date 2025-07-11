@@ -1,5 +1,5 @@
 export class ListHospitalController {
-    static $inject = ['$http'];
+    static $inject = ['$http', '$location'];
     hospitals: any[] = [];
 
     listHospitals(){
@@ -8,7 +8,7 @@ export class ListHospitalController {
             .catch (error => {console.error('Erro ao Buscar Hospitais', error);})
     }
 
-    constructor(private $http : angular.IHttpService){
+    constructor(private $http : angular.IHttpService, private $location: angular.ILocationService){
         this.listHospitals();
     }
 
@@ -23,5 +23,9 @@ export class ListHospitalController {
         this.$http.get(`http://localhost:8080/hospital/search/${this.searchName}`)
             .then(response => {this.hospitals = response.data as any;})
             .catch (error => {console.error('Erro ao Buscar Hospitais', error);})
+    }
+
+        goHome() {
+        this.$location.path('/home');
     }
 }

@@ -1,6 +1,6 @@
 <div class="body" id="register">
     <div class="page-title">
-        <h1>Cadastro de Alas</h1>
+        <h1>Registro de Internações</h1>
         <button class="btn-back" ng-click="vm.goHome()">Voltar para Início</button>
     </div>
     <div class="register-container">
@@ -8,8 +8,13 @@
         <div id="message-area"></div>
 
         <div class="add-section">
-            <h3>Adicionar Nova Ala</h3>
+            <h3>Internar Paciente</h3>
             <div class="form-group">
+
+                 <label for="name">Pesquise o paciente:</label>
+                <input type="text" class="stylish-input" id="patient" ng-model="vm.patientName" placeholder="Digite o nome do paciente" ng-change="vm.findPatientsByName()" />
+
+<br></br>
 
             <label for="hospital-select">Selecione o hospital:</label>
               <select id="hospital-select" ng-model="vm.selectedHospitalId" ng-change="vm.listAlas()">
@@ -19,42 +24,45 @@
 
 <br></br>
 
-                <label for="name">Especialidade da ala:</label>
-                <input type="text" class="stylish-input" id="especialidade" ng-model="vm.alaEspecialidade" placeholder="Digite o nome da especialidade" />
-<br></br>
+                <label for="ala-select">Selecione a especialidade da ala:</label>
+              <select id="ala-select" ng-model="vm.selectedEspecialidade">
+                <option value="" disabled selected>Escolha...</option>
+                <option ng-repeat="ala in vm.alas" value="{{ ala.especialidade }}">{{ ala.especialidade }}</option>
+              </select>
+<!-- <br></br>
                 <label for="quantQuartos">Nº Quartos:</label>
                 <input type="number" class="stylish-input" id="quantQuartos" ng-model="vm.alaQuantQuartos" placeholder="Digite o número de quartos" min="0"/>
 <br></br>
                 <label for="quantLeitosPorQuarto">Nº Leitos por quarto:</label>
                 <input type="number" class="stylish-input" id="quantLeitosPorQuarto" ng-model="vm.alaQuantLeitosPorQuarto" placeholder="Digite o número de leitos" min="0"/>
-                <button class="btn-add" ng-click="vm.addAla()">Salvar</button>
+                <button class="btn-add" ng-click="vm.addAla()">Salvar</button> -->
             </div>
         </div>
 
 <br></br>
 
-        <div class="control-section">
+        <!-- <div class="control-section">
             <input type="text"
             class="stylish-input"
                    id="name-filter"
                    placeholder="🔎 Filtrar por especialidade..."
-                   ng-model="vm.searchEspecialidade"
-                   ng-change="vm.findAlasByEspecialidade()" />
-        </div>
+                   ng-model="vm.patientName"
+                   ng-change="vm.findPatientsByName()" />
+        </div> -->
 
         <table class="list">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Especialidade</th>
+                    <th>Nome</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody class="list-inside">
-                <tr ng-repeat="ala in vm.alas">
-                    <td>{{ ala.alaId }}</td>
-                    <td>{{ ala.especialidade }}</td>
-                    <td><button title="Excluir" ng-click="vm.deleteAla(ala.alaId)">❌</button></td>
+                <tr ng-repeat="patient in vm.patients">
+                    <td>{{ patient.pacienteId }}</td>
+                    <td>{{ patient.nome }}</td>
+                    <td><button title="Internar" ng-click="vm.startAdmission(patient.pacienteId)">📥</button></td>
                 </tr>
             </tbody>
         </table>

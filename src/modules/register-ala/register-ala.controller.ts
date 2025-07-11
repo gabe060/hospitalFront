@@ -1,5 +1,6 @@
 export class RegisterAlaController {
-    static $inject = ['$http'];
+    static $inject = ['$http', '$location'];
+    alas: any[] = [];
     hospitals: any[] = [];
 
     listHospitals(){
@@ -7,60 +8,83 @@ export class RegisterAlaController {
             .then(response => {this.hospitals = response.data as any;})
             .catch (error => {console.error('Erro ao Buscar Hospitais', error);})
     }
+    
+    listAlas(){
+         if (!this.selectedHospitalId) {
+        this.alas = [];
+        return;
+    }
+        this.$http.get(`http://localhost:8080/hospital/${this.selectedHospitalId}/ala`)
+            .then(response => {this.alas = response.data as any;})
+            .catch (error => {console.error('Erro ao Buscar Alas', error);})
+    }
 
-    constructor(private $http : angular.IHttpService){
+    constructor(private $http : angular.IHttpService, private $location: angular.ILocationService){
+        this.listAlas();
         this.listHospitals();
     }
 
-    searchName: string = '';
+    selectedHospitalId: number = 0
+    searchEspecialidade: string = '';
 
-    public findHospitalsByName(){
-        if(!this.searchName || this.searchName.trim() === '') {
-            this.listHospitals();
+    public findAlasByEspecialidade(){
+        if(!this.searchEspecialidade || this.searchEspecialidade.trim() === '') {
+            this.listAlas();
             return;
         }
 
-        this.$http.get(`http://localhost:8080/hospital/search/${this.searchName}`)
-            .then(response => {this.hospitals = response.data as any;})
-            .catch (error => {console.error('Erro ao Buscar Hospitais', error);})
+        this.$http.get(`http://localhost:8080/hospital/${this.selectedHospitalId}/ala/search/${this.searchEspecialidade}`)
+            .then(response => {this.alas = response.data as any;})
+            .catch (error => {console.error('Erro ao Buscar Alas', error);})
     }
 
-    hospitalName: string = '';
+    alaEspecialidade: string = '';
+    alaQuantQuartos: number | undefined;
+    alaQuantLeitosPorQuarto: number | undefined;
 
-    addHospital(){
-        if(!this.hospitalName.trim()) return;
+    addAla(){
+        if(!this.alaEspecialidade.trim()) return;
 
-        const hospital = {
-            nome: this.hospitalName
+        const ala = {
+            especialidade: this.alaEspecialidade,
+            quantidadeQuartos: this.alaQuantQuartos,
+            quantidadeLeitosPorQuarto: this.alaQuantLeitosPorQuarto
         };
 
-        this.$http.post('http://localhost:8080/hospital/new', hospital)
+        this.$http.post(`http://localhost:8080/hospital/${this.selectedHospitalId}/ala/new`, ala)
             .then(() => {
-                this.hospitalName = '';
-                this.listHospitals();
-            }).catch(error => {console.error('Erro ao Adicionar Hospital', error);});
+                this.alaEspecialidade = '';
+                this.alaQuantQuartos = undefined;
+                this.alaQuantLeitosPorQuarto = undefined;
+                this.listAlas();
+            }).catch(error => {console.error('Erro ao Adicionar Ala', error);});
     }
 
-    updateHospital(hospitalId: number){
-        const newName = prompt('Digite o novo nome do hospital');
+    // updateHospital(hospitalId: number){
+    //     const newName = prompt('Digite o novo nome do hospital');
 
-        if(newName === null || newName.trim() === '') return;
+    //     if(newName === null || newName.trim() === '') return;
 
-        const hospitalUpdate = {
-            nome: newName
-        };
+    //     const hospitalUpdate = {
+    //         nome: newName
+    //     };
 
-        this.$http.put(`http://localhost:8080/hospital/${hospitalId}`, hospitalUpdate)
-            .then(() => {this.listHospitals();})
-            .catch(error => {console.error('Erro ao Atualizar Hospital', error);})
-    }
+    //     this.$http.put(`http://localhost:8080/hospital/${hospitalId}`, hospitalUpdate)
+    //         .then(() => {this.listHospitals();})
+    //         .catch(error => {console.error('Erro ao Atualizar Hospital', error);})
+    // }
 
-    deleteHospital(hospitalId: number){
-        const confirmar = confirm('Tem certeza que deseja excluir este hospital?');
+    deleteAla(alaId: number){
+        const confirmar = confirm('Tem certeza que deseja excluir esta ala?');
         if (!confirmar) return;
 
-        this.$http.delete(`http://localhost:8080/hospital/${hospitalId}`)
-            .then(() => {this.listHospitals();})
-            .catch(error => {console.error('Erro ao Deletar Hospital', error);})
+        this.$http.delete(`http://localhost:8080/hospital/${this.selectedHospitalId}/ala/${alaId}/delete`)
+            .then(() => {this.listAlas();})
+            .catch(error => {console.error('Erro ao Deletar Ala', error);})
     }
+
+    goHome() {
+        this.$location.path('/home');
+    }
+
 }

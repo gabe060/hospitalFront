@@ -1,0 +1,57 @@
+<div class="body" id="register">
+    <div class="page-title">
+        <h1>Lista de Quartos</h1>
+        <button class="btn-back" ng-click="vm.goHome()">Voltar para Início</button>
+    </div>
+    <div class="register-container">
+
+        <div id="message-area"></div>
+
+        <div class="add-section">
+            <div class="form-group">
+
+            <label for="hospital-select">Selecione o hospital:</label>
+              <select id="hospital-select" ng-model="vm.selectedHospitalId" ng-change="vm.listAlas()">
+                <option value="" disabled selected>Escolha...</option>
+                <option ng-repeat="hospital in vm.hospitals" value="{{ hospital.hospitalId }}">{{ hospital.nome }}</option>
+              </select>
+
+
+              <label for="ala-select">Selecione a ala:</label>
+              <select id="ala-select" ng-model="vm.selectedAlaId" ng-change="vm.listQuartos()">
+                <option value="" disabled selected>Escolha...</option>
+                <option ng-repeat="ala in vm.alas" value="{{ ala.alaId }}">{{ ala.especialidade }} - {{ ala.alaId }}</option>
+              </select>
+
+            </div>
+        </div>
+
+<br></br>
+
+        <div class="control-section">
+            <input type="text"
+            class="stylish-input"
+                   id="name-filter"
+                   placeholder="🔎 Filtrar por código..."
+                   ng-model="vm.searchCode"
+                   ng-change="vm.findQuartosByCode()" />
+        </div>
+
+        <table class="list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código do Quarto</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody class="list-inside">
+                <tr ng-repeat="quarto in vm.quartos">
+                    <td>{{ quarto.quartoId }}</td>
+                    <td>{{ quarto.codigoQuarto }}</td>
+                    <td>{{ quarto.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -47982,139 +47982,83 @@ homePageModule.controller('HomePageController', _home_page_controller__WEBPACK_I
 
 /***/ }),
 
-/***/ "./src/modules/admission/admission.controller.ts":
-/*!*******************************************************!*\
-  !*** ./src/modules/admission/admission.controller.ts ***!
-  \*******************************************************/
+/***/ "./src/modules/list-ala/index.ts":
+/*!***************************************!*\
+  !*** ./src/modules/list-ala/index.ts ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   AdmissionController: () => (/* binding */ AdmissionController)
+/* harmony export */   listAlaModule: () => (/* binding */ listAlaModule)
 /* harmony export */ });
-var AdmissionController = /** @class */ (function () {
-    function AdmissionController($http) {
-        this.$http = $http;
-        this.admittedPatients = [];
-        this.patientResults = [];
-        this.hospitals = [];
-        this.patientName = '';
-        this.selectedPatientId = null;
-        this.selectedHospitalId = null;
-        this.selectedSpecialty = '';
-        this.availableBeds = [];
-        this.selectedBedId = null;
-        this.bedPageNumber = 0;
-        this.bedPageSize = 5;
-        this.bedTotalPages = 0;
-        this.getAdmittedPatients();
-        this.loadHospitals();
-    }
-    AdmissionController.prototype.getAdmittedPatients = function () {
-        var _this = this;
-        this.$http.get('http://localhost:8080/adm/currently-admitted')
-            .then(function (response) { _this.admittedPatients = response.data; })
-            .catch(function (error) { console.error('Erro ao Buscar Pacientes Admitidos', error); });
-    };
-    AdmissionController.prototype.loadHospitals = function () {
-        var _this = this;
-        this.$http.get('http://localhost:8080/hospitals')
-            .then(function (response) { _this.hospitals = response.data; })
-            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
-    };
-    AdmissionController.prototype.selectPatient = function (patient) {
-        this.patientName = patient.name;
-        this.selectedPatientId = patient.id;
-        this.patientResults = [];
-    };
-    AdmissionController.prototype.searchPatients = function (name) {
-        var _this = this;
-        this.$http.get("http://localhost:8080/patients/search/".concat(name))
-            .then(function (response) { _this.patientResults = response.data; })
-            .catch(function (error) { console.error('Erro ao Buscar Pacientes', error); });
-    };
-    AdmissionController.prototype.loadAvailableBeds = function () {
-        var _this = this;
-        var baseUrl = 'http://localhost:8080';
-        var url = '';
-        // if (this.selectedHospitalId && this.selectedSpecialty) {
-        //     url = `${baseUrl}/beds/available-by-hospital-and-specialty/${this.selectedHospitalId}/${this.selectedSpecialty}`;
-        // } else if (this.selectedHospitalId) {
-        //     url = `${baseUrl}/beds/available-by-hospital/${this.selectedHospitalId}`;
-        // } else {
-        //     url = `${baseUrl}/beds/available`;
-        // }
-        if (this.selectedHospitalId && this.selectedSpecialty) {
-            url = "".concat(baseUrl, "/beds/available-by-hospital-and-specialty/").concat(this.selectedHospitalId, "/").concat(this.selectedSpecialty);
-        }
-        else {
-            url = "".concat(baseUrl, "/beds/available");
-        }
-        url += "?page=".concat(this.bedPageNumber, "&size=").concat(this.bedPageSize);
-        this.$http.get(url)
-            .then(function (response) {
-            _this.availableBeds = response.data.content;
-            _this.bedTotalPages = response.data.totalPages;
-        })
-            .catch(function (error) { return console.error('Erro ao buscar leitos disponíveis', error); });
-    };
-    AdmissionController.prototype.admitPatient = function () {
-        var _this = this;
-        if (!this.selectedPatientId || !this.selectedBedId) {
-            alert('Selecione um paciente e uma cama.');
-            return;
-        }
-        var payload = {
-            patientId: this.selectedPatientId,
-            bedId: this.selectedBedId
-        };
-        this.$http.post('http://localhost:8080/adm', payload)
-            .then(function () {
-            alert('Paciente internado com sucesso!');
-            _this.clearForm();
-            _this.getAdmittedPatients();
-        })
-            .catch(function (error) {
-            console.error('Erro ao internar paciente', error);
-            alert('Erro ao internar paciente.');
-        });
-    };
-    AdmissionController.prototype.clearForm = function () {
-        this.patientName = '';
-        this.selectedPatientId = null;
-        this.selectedHospitalId = null;
-        this.selectedSpecialty = '';
-        this.selectedBedId = null;
-        this.availableBeds = [];
-        this.patientResults = [];
-    };
-    AdmissionController.$inject = ['$http'];
-    return AdmissionController;
-}());
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _list_ala_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list-ala.controller */ "./src/modules/list-ala/list-ala.controller.ts");
 
+
+var listAlaModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('listAlaModule', []);
+listAlaModule.controller('ListAlaController', _list_ala_controller__WEBPACK_IMPORTED_MODULE_1__.ListAlaController);
 
 
 /***/ }),
 
-/***/ "./src/modules/admission/index.ts":
-/*!****************************************!*\
-  !*** ./src/modules/admission/index.ts ***!
-  \****************************************/
+/***/ "./src/modules/list-ala/list-ala.controller.ts":
+/*!*****************************************************!*\
+  !*** ./src/modules/list-ala/list-ala.controller.ts ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   admissionModule: () => (/* binding */ admissionModule)
+/* harmony export */   ListAlaController: () => (/* binding */ ListAlaController)
 /* harmony export */ });
-/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
-/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _admission_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admission.controller */ "./src/modules/admission/admission.controller.ts");
+var ListAlaController = /** @class */ (function () {
+    function ListAlaController($http, $location) {
+        this.$http = $http;
+        this.$location = $location;
+        this.hospitals = [];
+        this.alas = [];
+        this.selectedHospitalId = 0;
+        this.searchEspecialidade = '';
+        this.listAlas();
+        this.listHospitals();
+    }
+    ListAlaController.prototype.listHospitals = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital')
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    ListAlaController.prototype.listAlas = function () {
+        var _this = this;
+        if (!this.selectedHospitalId) {
+            this.alas = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala"))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    ListAlaController.prototype.findAlasByEspecialidade = function () {
+        var _this = this;
+        if (!this.searchEspecialidade || this.searchEspecialidade.trim() === '') {
+            this.listAlas();
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/search/").concat(this.searchEspecialidade))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    ListAlaController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    ListAlaController.$inject = ['$http', '$location'];
+    return ListAlaController;
+}());
 
-
-var admissionModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('admissionModule', []);
-admissionModule.controller('AdmissionController', _admission_controller__WEBPACK_IMPORTED_MODULE_1__.AdmissionController);
 
 
 /***/ }),
@@ -48153,8 +48097,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ListHospitalController: () => (/* binding */ ListHospitalController)
 /* harmony export */ });
 var ListHospitalController = /** @class */ (function () {
-    function ListHospitalController($http) {
+    function ListHospitalController($http, $location) {
         this.$http = $http;
+        this.$location = $location;
         this.hospitals = [];
         this.searchName = '';
         this.listHospitals();
@@ -48175,8 +48120,480 @@ var ListHospitalController = /** @class */ (function () {
             .then(function (response) { _this.hospitals = response.data; })
             .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
     };
-    ListHospitalController.$inject = ['$http'];
+    ListHospitalController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    ListHospitalController.$inject = ['$http', '$location'];
     return ListHospitalController;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/modules/list-leito/index.ts":
+/*!*****************************************!*\
+  !*** ./src/modules/list-leito/index.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   listLeitoModule: () => (/* binding */ listLeitoModule)
+/* harmony export */ });
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _list_leito_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list-leito.controller */ "./src/modules/list-leito/list-leito.controller.ts");
+
+
+var listLeitoModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('listLeitoModule', []);
+listLeitoModule.controller('ListLeitoController', _list_leito_controller__WEBPACK_IMPORTED_MODULE_1__.ListLeitoController);
+
+
+/***/ }),
+
+/***/ "./src/modules/list-leito/list-leito.controller.ts":
+/*!*********************************************************!*\
+  !*** ./src/modules/list-leito/list-leito.controller.ts ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ListLeitoController: () => (/* binding */ ListLeitoController)
+/* harmony export */ });
+var ListLeitoController = /** @class */ (function () {
+    function ListLeitoController($http, $location) {
+        this.$http = $http;
+        this.$location = $location;
+        this.hospitals = [];
+        this.alas = [];
+        this.quartos = [];
+        this.leitos = [];
+        this.logs = [];
+        this.selectedQuartoId = 0;
+        this.selectedAlaId = 0;
+        this.selectedHospitalId = 0;
+        this.searchLeitoCode = '';
+        this.showLogs = false;
+        this.listQuartos();
+        this.listAlas();
+        this.listHospitals();
+        this.listLeitos();
+    }
+    ListLeitoController.prototype.listHospitals = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital')
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    ListLeitoController.prototype.listAlas = function () {
+        var _this = this;
+        if (!this.selectedHospitalId) {
+            this.alas = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala"))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    ListLeitoController.prototype.listQuartos = function () {
+        var _this = this;
+        if (!this.selectedHospitalId || !this.selectedAlaId) {
+            this.quartos = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/").concat(this.selectedAlaId, "/quartos"))
+            .then(function (response) { _this.quartos = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Quartos', error); });
+    };
+    ListLeitoController.prototype.listLeitos = function () {
+        var _this = this;
+        if (!this.selectedHospitalId || !this.selectedAlaId || !this.selectedQuartoId) {
+            this.leitos = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/").concat(this.selectedAlaId, "/quarto/").concat(this.selectedQuartoId, "/leitos"))
+            .then(function (response) { _this.leitos = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Leitos', error); });
+    };
+    ListLeitoController.prototype.findLeitosByCode = function () {
+        var _this = this;
+        if (!this.searchLeitoCode || this.searchLeitoCode.trim() === '') {
+            this.listLeitos();
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/").concat(this.selectedAlaId, "/quarto/").concat(this.selectedQuartoId, "/leito/search/").concat(this.searchLeitoCode))
+            .then(function (response) { _this.leitos = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Leitos', error); });
+    };
+    ListLeitoController.prototype.logLeito = function (leitoId) {
+        var _this = this;
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/log/leito/").concat(leitoId))
+            .then(function (response) {
+            _this.logs = response.data;
+            _this.showLogs = true;
+        })
+            .catch(function (error) { console.error('Erro ao Buscar Logs', error); });
+    };
+    ListLeitoController.prototype.clearLogs = function () {
+        this.logs = [];
+        this.showLogs = false;
+    };
+    ListLeitoController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    ListLeitoController.$inject = ['$http', '$location'];
+    return ListLeitoController;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/modules/list-quarto/index.ts":
+/*!******************************************!*\
+  !*** ./src/modules/list-quarto/index.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   listQuartoModule: () => (/* binding */ listQuartoModule)
+/* harmony export */ });
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _list_quarto_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./list-quarto.controller */ "./src/modules/list-quarto/list-quarto.controller.ts");
+
+
+var listQuartoModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('listQuartoModule', []);
+listQuartoModule.controller('ListQuartoController', _list_quarto_controller__WEBPACK_IMPORTED_MODULE_1__.ListQuartoController);
+
+
+/***/ }),
+
+/***/ "./src/modules/list-quarto/list-quarto.controller.ts":
+/*!***********************************************************!*\
+  !*** ./src/modules/list-quarto/list-quarto.controller.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ListQuartoController: () => (/* binding */ ListQuartoController)
+/* harmony export */ });
+var ListQuartoController = /** @class */ (function () {
+    function ListQuartoController($http, $location) {
+        this.$http = $http;
+        this.$location = $location;
+        this.hospitals = [];
+        this.alas = [];
+        this.quartos = [];
+        this.selectedAlaId = 0;
+        this.selectedHospitalId = 0;
+        this.searchCode = '';
+        this.listQuartos();
+        this.listAlas();
+        this.listHospitals();
+    }
+    ListQuartoController.prototype.listHospitals = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital')
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    ListQuartoController.prototype.listAlas = function () {
+        var _this = this;
+        if (!this.selectedHospitalId) {
+            this.alas = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala"))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    ListQuartoController.prototype.listQuartos = function () {
+        var _this = this;
+        if (!this.selectedHospitalId || !this.selectedAlaId) {
+            this.quartos = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/").concat(this.selectedAlaId, "/quartos"))
+            .then(function (response) { _this.quartos = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Quartos', error); });
+    };
+    ListQuartoController.prototype.findQuartosByCode = function () {
+        var _this = this;
+        if (!this.searchCode || this.searchCode.trim() === '') {
+            this.listQuartos();
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/").concat(this.selectedAlaId, "/quarto/search/").concat(this.searchCode))
+            .then(function (response) { _this.quartos = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Quartos', error); });
+    };
+    ListQuartoController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    ListQuartoController.$inject = ['$http', '$location'];
+    return ListQuartoController;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/modules/register-admission/index.ts":
+/*!*************************************************!*\
+  !*** ./src/modules/register-admission/index.ts ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerAdmissionModule: () => (/* binding */ registerAdmissionModule)
+/* harmony export */ });
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _register_admission_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register-admission.controller */ "./src/modules/register-admission/register-admission.controller.ts");
+
+
+var registerAdmissionModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('registerAdmissionModule', []);
+registerAdmissionModule.controller('RegisterAdmissionController', _register_admission_controller__WEBPACK_IMPORTED_MODULE_1__.RegisterAdmissionController);
+
+
+/***/ }),
+
+/***/ "./src/modules/register-admission/register-admission.controller.ts":
+/*!*************************************************************************!*\
+  !*** ./src/modules/register-admission/register-admission.controller.ts ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   RegisterAdmissionController: () => (/* binding */ RegisterAdmissionController)
+/* harmony export */ });
+var RegisterAdmissionController = /** @class */ (function () {
+    function RegisterAdmissionController($http, $location) {
+        this.$http = $http;
+        this.$location = $location;
+        this.hospitals = [];
+        this.alas = [];
+        this.patients = [];
+        this.selectedHospitalId = undefined;
+        this.patientName = '';
+        this.listHospitals();
+        this.listAlas();
+        this.listPatients();
+    }
+    RegisterAdmissionController.prototype.listHospitals = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital')
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    RegisterAdmissionController.prototype.listAlas = function () {
+        var _this = this;
+        if (!this.selectedHospitalId) {
+            this.alas = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala"))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    RegisterAdmissionController.prototype.listPatients = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital/pacientes')
+            .then(function (response) { _this.patients = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Pacientes', error); });
+    };
+    RegisterAdmissionController.prototype.findPatientsByName = function () {
+        var _this = this;
+        if (!this.patientName || this.patientName.trim() === '') {
+            this.listPatients();
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/paciente/search/".concat(this.patientName))
+            .then(function (response) { _this.patients = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Pacientes', error); });
+    };
+    // alaEspecialidade: string = '';
+    // alaQuantQuartos: number | undefined;
+    // alaQuantLeitosPorQuarto: number | undefined;
+    RegisterAdmissionController.prototype.startAdmission = function (patientId) {
+        var _this = this;
+        if (!this.selectedHospitalId || this.selectedHospitalId == null) {
+            alert('Selecione um hospital');
+            return;
+        }
+        if (!this.selectedEspecialidade || this.selectedEspecialidade.trim() === '') {
+            alert('Selecione uma especialidade');
+            return;
+        }
+        var admission = {
+            pacienteId: patientId,
+            especialidade: this.selectedEspecialidade
+        };
+        this.$http.post("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/paciente/internar"), admission)
+            .then(function () {
+            _this.clearForm();
+            _this.listPatients();
+            alert('Paciente internado com sucesso!');
+        }).catch(function (error) { console.error('Erro ao Registrar Internação', error); alert('O Paciente já possui uma internação em andamento'); });
+    };
+    // updateHospital(hospitalId: number){
+    //     const newName = prompt('Digite o novo nome do hospital');
+    //     if(newName === null || newName.trim() === '') return;
+    //     const hospitalUpdate = {
+    //         nome: newName
+    //     };
+    //     this.$http.put(`http://localhost:8080/hospital/${hospitalId}`, hospitalUpdate)
+    //         .then(() => {this.listHospitals();})
+    //         .catch(error => {console.error('Erro ao Atualizar Hospital', error);})
+    // }
+    // deleteAla(alaId: number){
+    //     const confirmar = confirm('Tem certeza que deseja excluir esta ala?');
+    //     if (!confirmar) return;
+    //     this.$http.delete(`http://localhost:8080/hospital/${this.selectedHospitalId}/ala/${alaId}/delete`)
+    //         .then(() => {this.listAlas();})
+    //         .catch(error => {console.error('Erro ao Deletar Ala', error);})
+    // }
+    RegisterAdmissionController.prototype.clearForm = function () {
+        this.patientName = '';
+        this.selectedEspecialidade = null;
+        this.selectedHospitalId = undefined;
+    };
+    RegisterAdmissionController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    RegisterAdmissionController.$inject = ['$http', '$location'];
+    return RegisterAdmissionController;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/modules/register-ala/index.ts":
+/*!*******************************************!*\
+  !*** ./src/modules/register-ala/index.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   registerAlaModule: () => (/* binding */ registerAlaModule)
+/* harmony export */ });
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! angular */ "./node_modules/angular/index.js");
+/* harmony import */ var angular__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(angular__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _register_ala_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register-ala.controller */ "./src/modules/register-ala/register-ala.controller.ts");
+
+
+var registerAlaModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('registerAlaModule', []);
+registerAlaModule.controller('RegisterAlaController', _register_ala_controller__WEBPACK_IMPORTED_MODULE_1__.RegisterAlaController);
+
+
+/***/ }),
+
+/***/ "./src/modules/register-ala/register-ala.controller.ts":
+/*!*************************************************************!*\
+  !*** ./src/modules/register-ala/register-ala.controller.ts ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   RegisterAlaController: () => (/* binding */ RegisterAlaController)
+/* harmony export */ });
+var RegisterAlaController = /** @class */ (function () {
+    function RegisterAlaController($http, $location) {
+        this.$http = $http;
+        this.$location = $location;
+        this.alas = [];
+        this.hospitals = [];
+        this.selectedHospitalId = 0;
+        this.searchEspecialidade = '';
+        this.alaEspecialidade = '';
+        this.listAlas();
+        this.listHospitals();
+    }
+    RegisterAlaController.prototype.listHospitals = function () {
+        var _this = this;
+        this.$http.get('http://localhost:8080/hospital')
+            .then(function (response) { _this.hospitals = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Hospitais', error); });
+    };
+    RegisterAlaController.prototype.listAlas = function () {
+        var _this = this;
+        if (!this.selectedHospitalId) {
+            this.alas = [];
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala"))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    RegisterAlaController.prototype.findAlasByEspecialidade = function () {
+        var _this = this;
+        if (!this.searchEspecialidade || this.searchEspecialidade.trim() === '') {
+            this.listAlas();
+            return;
+        }
+        this.$http.get("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/search/").concat(this.searchEspecialidade))
+            .then(function (response) { _this.alas = response.data; })
+            .catch(function (error) { console.error('Erro ao Buscar Alas', error); });
+    };
+    RegisterAlaController.prototype.addAla = function () {
+        var _this = this;
+        if (!this.alaEspecialidade.trim())
+            return;
+        var ala = {
+            especialidade: this.alaEspecialidade,
+            quantidadeQuartos: this.alaQuantQuartos,
+            quantidadeLeitosPorQuarto: this.alaQuantLeitosPorQuarto
+        };
+        this.$http.post("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/new"), ala)
+            .then(function () {
+            _this.alaEspecialidade = '';
+            _this.alaQuantQuartos = undefined;
+            _this.alaQuantLeitosPorQuarto = undefined;
+            _this.listAlas();
+        }).catch(function (error) { console.error('Erro ao Adicionar Ala', error); });
+    };
+    // updateHospital(hospitalId: number){
+    //     const newName = prompt('Digite o novo nome do hospital');
+    //     if(newName === null || newName.trim() === '') return;
+    //     const hospitalUpdate = {
+    //         nome: newName
+    //     };
+    //     this.$http.put(`http://localhost:8080/hospital/${hospitalId}`, hospitalUpdate)
+    //         .then(() => {this.listHospitals();})
+    //         .catch(error => {console.error('Erro ao Atualizar Hospital', error);})
+    // }
+    RegisterAlaController.prototype.deleteAla = function (alaId) {
+        var _this = this;
+        var confirmar = confirm('Tem certeza que deseja excluir esta ala?');
+        if (!confirmar)
+            return;
+        this.$http.delete("http://localhost:8080/hospital/".concat(this.selectedHospitalId, "/ala/").concat(alaId, "/delete"))
+            .then(function () { _this.listAlas(); })
+            .catch(function (error) { console.error('Erro ao Deletar Ala', error); });
+    };
+    RegisterAlaController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    RegisterAlaController.$inject = ['$http', '$location'];
+    return RegisterAlaController;
 }());
 
 
@@ -48217,8 +48634,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   RegisterHospitalController: () => (/* binding */ RegisterHospitalController)
 /* harmony export */ });
 var RegisterHospitalController = /** @class */ (function () {
-    function RegisterHospitalController($http) {
+    function RegisterHospitalController($http, $location) {
         this.$http = $http;
+        this.$location = $location;
         this.hospitals = [];
         this.searchName = '';
         this.hospitalName = '';
@@ -48274,7 +48692,10 @@ var RegisterHospitalController = /** @class */ (function () {
             .then(function () { _this.listHospitals(); })
             .catch(function (error) { console.error('Erro ao Deletar Hospital', error); });
     };
-    RegisterHospitalController.$inject = ['$http'];
+    RegisterHospitalController.prototype.goHome = function () {
+        this.$location.path('/home');
+    };
+    RegisterHospitalController.$inject = ['$http', '$location'];
     return RegisterHospitalController;
 }());
 
@@ -48298,7 +48719,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _register_patient_controller__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register-patient.controller */ "./src/modules/register-patient/register-patient.controller.ts");
 
 
-var registerPatientModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('RegisterPatientController', []);
+var registerPatientModule = angular__WEBPACK_IMPORTED_MODULE_0__.module('registerPatientModule', []);
 registerPatientModule.controller('RegisterPatientController', _register_patient_controller__WEBPACK_IMPORTED_MODULE_1__.RegisterPatientController);
 
 
@@ -48316,8 +48737,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   RegisterPatientController: () => (/* binding */ RegisterPatientController)
 /* harmony export */ });
 var RegisterPatientController = /** @class */ (function () {
-    function RegisterPatientController($http) {
+    function RegisterPatientController($http, $location) {
         this.$http = $http;
+        this.$location = $location;
         this.patients = [];
         this.searchName = '';
         this.patientName = '';
@@ -48325,7 +48747,7 @@ var RegisterPatientController = /** @class */ (function () {
     }
     RegisterPatientController.prototype.listPatients = function () {
         var _this = this;
-        this.$http.get('http://localhost:8080/patients')
+        this.$http.get('http://localhost:8080/hospital/pacientes')
             .then(function (response) { _this.patients = response.data; })
             .catch(function (error) { console.error('Erro ao Buscar Pacientes', error); });
     };
@@ -48335,7 +48757,7 @@ var RegisterPatientController = /** @class */ (function () {
             this.listPatients();
             return;
         }
-        this.$http.get("http://localhost:8080/patients/search/".concat(this.searchName))
+        this.$http.get("http://localhost:8080/hospital/paciente/search/".concat(this.searchName))
             .then(function (response) { _this.patients = response.data; })
             .catch(function (error) { console.error('Erro ao Buscar Pacientes', error); });
     };
@@ -48343,33 +48765,38 @@ var RegisterPatientController = /** @class */ (function () {
         var _this = this;
         if (!this.patientName.trim())
             return;
-        var patient = { name: this.patientName };
-        this.$http.post('http://localhost:8080/patients', patient)
+        var patient = {
+            nome: this.patientName
+        };
+        this.$http.post('http://localhost:8080/hospital/paciente/new', patient)
             .then(function () {
             _this.patientName = '';
             _this.listPatients();
-        }).catch(function (error) { console.error('Erro ao Adicionar Paciente', error); });
+        }).catch(function (error) { console.error('Erro ao Cadastrar Paciente', error); });
     };
-    RegisterPatientController.prototype.updatePatient = function (patient) {
+    RegisterPatientController.prototype.updateHospital = function (hospitalId) {
         var _this = this;
         var newName = prompt('Digite o novo nome do paciente');
         if (newName === null || newName.trim() === '')
             return;
-        var patientUpdate = { name: newName };
-        this.$http.put("http://localhost:8080/patients/".concat(patient.id), patientUpdate)
+        var patientUpdate = {
+            nome: newName
+        };
+        this.$http.put("http://localhost:8080/hospital/".concat(hospitalId), patientUpdate)
             .then(function () { _this.listPatients(); })
             .catch(function (error) { console.error('Erro ao Atualizar Paciente', error); });
     };
-    RegisterPatientController.prototype.deletePatient = function (patientId) {
-        var _this = this;
-        var confirmar = confirm('Tem certeza que deseja excluir este paciente?');
-        if (!confirmar)
-            return;
-        this.$http.delete("http://localhost:8080/patients/".concat(patientId))
-            .then(function () { _this.listPatients(); })
-            .catch(function (error) { console.error('Erro ao Deletar Paciente', error); });
+    // deletPatient(patientId: number){
+    //     const confirmar = confirm('Tem certeza que deseja excluir este paciente?');
+    //     if (!confirmar) return;
+    //     this.$http.delete(`http://localhost:8080/hospital/${hospitalId}`)
+    //         .then(() => {this.listPatients();})
+    //         .catch(error => {console.error('Erro ao Deletar Paciente', error);})
+    // }
+    RegisterPatientController.prototype.goHome = function () {
+        this.$location.path('/home');
     };
-    RegisterPatientController.$inject = ['$http'];
+    RegisterPatientController.$inject = ['$http', '$location'];
     return RegisterPatientController;
 }());
 
@@ -48471,8 +48898,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home_page_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home-page/index */ "./src/home-page/index.ts");
 /* harmony import */ var _modules_register_hospital_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/register-hospital/index */ "./src/modules/register-hospital/index.ts");
 /* harmony import */ var _modules_register_patient_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/register-patient/index */ "./src/modules/register-patient/index.ts");
-/* harmony import */ var _modules_admission_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/admission/index */ "./src/modules/admission/index.ts");
+/* harmony import */ var _modules_register_admission_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/register-admission/index */ "./src/modules/register-admission/index.ts");
 /* harmony import */ var _modules_list_hospital_index__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/list-hospital/index */ "./src/modules/list-hospital/index.ts");
+/* harmony import */ var _modules_register_ala_index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/register-ala/index */ "./src/modules/register-ala/index.ts");
+/* harmony import */ var _modules_list_ala_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/list-ala/index */ "./src/modules/list-ala/index.ts");
+/* harmony import */ var _modules_list_quarto_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/list-quarto/index */ "./src/modules/list-quarto/index.ts");
+/* harmony import */ var _modules_list_leito_index__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/list-leito/index */ "./src/modules/list-leito/index.ts");
+
+
+
+
 
 
 
@@ -48485,8 +48920,12 @@ var app = angular__WEBPACK_IMPORTED_MODULE_0__.module('meuApp', [
     _home_page_index__WEBPACK_IMPORTED_MODULE_2__.homePageModule.name,
     _modules_register_hospital_index__WEBPACK_IMPORTED_MODULE_3__.registerHospitalModule.name,
     _modules_register_patient_index__WEBPACK_IMPORTED_MODULE_4__.registerPatientModule.name,
-    _modules_admission_index__WEBPACK_IMPORTED_MODULE_5__.admissionModule.name,
-    _modules_list_hospital_index__WEBPACK_IMPORTED_MODULE_6__.listHospitalModule.name
+    _modules_register_admission_index__WEBPACK_IMPORTED_MODULE_5__.registerAdmissionModule.name,
+    _modules_list_hospital_index__WEBPACK_IMPORTED_MODULE_6__.listHospitalModule.name,
+    _modules_register_ala_index__WEBPACK_IMPORTED_MODULE_7__.registerAlaModule.name,
+    _modules_list_ala_index__WEBPACK_IMPORTED_MODULE_8__.listAlaModule.name,
+    _modules_list_quarto_index__WEBPACK_IMPORTED_MODULE_9__.listQuartoModule.name,
+    _modules_list_leito_index__WEBPACK_IMPORTED_MODULE_10__.listLeitoModule.name
 ]);
 app.config([
     '$stateProvider',
@@ -48510,16 +48949,40 @@ app.config([
             controller: 'RegisterPatientController',
             controllerAs: 'vm'
         });
-        $stateProvider.state('admission', {
-            url: '/admission',
-            templateUrl: 'src/modules/admission/admission.html',
-            controller: 'AdmissionController',
+        $stateProvider.state('registerAdmission', {
+            url: '/register-admission',
+            templateUrl: 'src/modules/register-admission/register-admission.html',
+            controller: 'RegisterAdmissionController',
             controllerAs: 'vm'
         });
         $stateProvider.state('listHospital', {
             url: '/list-hospital',
             templateUrl: 'src/modules/list-hospital/list-hospital.html',
             controller: 'ListHospitalController',
+            controllerAs: 'vm'
+        });
+        $stateProvider.state('registerAla', {
+            url: '/register-ala',
+            templateUrl: 'src/modules/register-ala/register-ala.html',
+            controller: 'RegisterAlaController',
+            controllerAs: 'vm'
+        });
+        $stateProvider.state('listAla', {
+            url: '/list-ala',
+            templateUrl: 'src/modules/list-ala/list-ala.html',
+            controller: 'ListAlaController',
+            controllerAs: 'vm'
+        });
+        $stateProvider.state('listQuarto', {
+            url: '/list-quarto',
+            templateUrl: 'src/modules/list-quarto/list-quarto.html',
+            controller: 'ListQuartoController',
+            controllerAs: 'vm'
+        });
+        $stateProvider.state('listLeito', {
+            url: '/list-leito',
+            templateUrl: 'src/modules/list-leito/list-leito.html',
+            controller: 'ListLeitoController',
             controllerAs: 'vm'
         });
         $urlRouterProvider.otherwise('/home');

@@ -1,6 +1,7 @@
 <div class="body" id="register">
     <div class="page-title">
         <h1>Cadastro de Pacientes</h1>
+        <button class="btn-back" ng-click="vm.goHome()">Voltar para Início</button>
     </div>
     <div class="register-container">
 
@@ -10,36 +11,39 @@
             <h3>Adicionar Novo Paciente</h3>
             <div class="form-group">
                 <label for="name">Nome do Paciente:</label>
-                <input type="text" id="name" ng-model="vm.patientName" placeholder="Digite o nome do paciente" />
+                <input type="text" class="stylish-input" id="nome" ng-model="vm.patientName" placeholder="Digite o nome do paciente" />
                 <button class="btn-add" ng-click="vm.addPatient()">Salvar</button>
             </div>
         </div>
 
+<br></br>
+
         <div class="control-section">
             <input type="text"
+            class="stylish-input"
                    id="name-filter"
-                   placeholder="Filtrar por nome..."
+                   placeholder="🔎 Filtrar por nome..."
                    ng-model="vm.searchName"
                    ng-change="vm.findPatientsByName()" />
         </div>
 
         <table class="list">
             <thead>
-            <tr>
-                <th>Ações</th>
-                <th>ID</th>
-                <th>Nome</th>
-            </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
             </thead>
-            <tbody>
-            <tr ng-repeat="patient in vm.patients">
-                <td>
-                    <button title="Editar" ng-click="vm.updatePatient(patient)">✏️</button>
-                    <button title="Excluir" ng-click="vm.deletePatient(patient.id)">🗑️</button>
-                </td>
-                <td>{{ patient.id }}</td>
-                <td>{{ patient.name }}</td>
-            </tr>
+            <tbody class="list-inside">
+                <tr ng-repeat="patient in vm.patients">
+                    <td>{{ patient.pacienteId }}</td>
+                    <td>{{ patient.nome }}</td>
+                    <td>
+                        <button title="Editar nome" ng-click="vm.updatePatient(patient.pacienteId)">✏️</button>
+                        <!-- <button title="Excluir" ng-click="vm.deletePatient(patient.pacienteId)">❌</button>'' -->
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

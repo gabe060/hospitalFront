@@ -1,0 +1,91 @@
+<div class="body" id="register">
+    <div class="page-title">
+        <h1>Lista de Leitos</h1>
+        <button class="btn-back" ng-click="vm.goHome()">Voltar para Início</button>
+    </div>
+    <div class="register-container">
+
+        <div id="message-area"></div>
+
+        <div class="add-section">
+            <div class="form-group">
+
+            <label for="hospital-select">Selecione o hospital:</label>
+              <select id="hospital-select" ng-model="vm.selectedHospitalId" ng-change="vm.listAlas()">
+                <option value="" disabled selected>Escolha...</option>
+                <option ng-repeat="hospital in vm.hospitals" value="{{ hospital.hospitalId }}">{{ hospital.nome }}</option>
+              </select>
+
+
+              <label for="ala-select">Selecione a ala:</label>
+              <select id="ala-select" ng-model="vm.selectedAlaId" ng-change="vm.listQuartos()">
+                <option value="" disabled selected>Escolha...</option>
+                <option ng-repeat="ala in vm.alas" value="{{ ala.alaId }}">{{ ala.especialidade }} - {{ ala.alaId }}</option>
+              </select>
+
+<br></br>
+
+               <label for="quarto-select">Selecione o quarto:</label>
+              <select id="quarto-select" ng-model="vm.selectedQuartoId" ng-change="vm.listLeitos(); vm.clearLogs()">
+                <option value="" disabled selected>Escolha...</option>
+                <option ng-repeat="quarto in vm.quartos" value="{{ quarto.quartoId }}">{{ quarto.codigoQuarto }}</option>
+              </select>
+
+            </div>
+        </div>
+
+<br></br>
+
+        <div class="control-section">
+            <input type="text"
+            class="stylish-input"
+                   id="name-filter"
+                   placeholder="🔎 Filtrar por código..."
+                   ng-model="vm.searchLeitoCode"
+                   ng-change="vm.findLeitosByCode()" />
+        </div>
+
+        <table class="list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código do Leito</th>
+                    <th>Status</th>
+                    <th>Logs</th>
+                </tr>
+            </thead>
+            <tbody class="list-inside">
+                <tr ng-repeat="leito in vm.leitos">
+                    <td>{{ leito.leitoId }}</td>
+                    <td>{{ leito.codigoLeito }}</td>
+                    <td>{{ leito.status }}</td>
+                    <td>
+                        <button title="Ver logs" ng-click="vm.logLeito(leito.leitoId)">📜</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+<br></br>
+
+        <table class="list" ng-if="vm.showLogs">
+             <thead>
+                <tr>
+                    <th>ID da Internação</th>
+                    <th>ID do Paciente</th>
+                    <th>Data de Internação</th>
+                    <th>Data da Alta</th>
+                </tr>
+            </thead>
+            <tbody class="list-inside">
+                <tr ng-repeat="log in vm.logs">
+                    <td>{{ log.idLogInternacao }}</td>
+                    <td>{{ log.pacienteId }}</td>
+                    <td>{{ log.dataInternacao | date: 'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ log.dataAlta | date: 'dd/MM/yyyy HH:mm' }}</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
